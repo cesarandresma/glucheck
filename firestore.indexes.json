@@ -1,0 +1,20 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "readings",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "measuredAt", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "readings",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "context", "order": "ASCENDING" },
+        { "fieldPath": "measuredAt", "order": "DESCENDING" }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}
