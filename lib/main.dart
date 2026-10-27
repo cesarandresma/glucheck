@@ -50,16 +50,7 @@ class _StartupGateState extends State<_StartupGate> {
 
   Future<void> _initFirebase() async {
     if (Firebase.apps.isNotEmpty) return;
-    if (!kIsWeb && defaultTargetPlatform == TargetPlatform.android) {
-      // La clave queda en android/app/google-services.json (ignorado por Git).
-      // El plugin de Google Services la incluye en la compilación local.
-      await Firebase.initializeApp();
-      return;
-    }
-    if (isFirebaseOptionsPlaceholder && !kFirebaseConfigured) {
-      throw StateError('Firebase sin configurar');
-    }
-    await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+    await Firebase.initializeApp(options: DefaultFirebaseOptions.android);
   }
 
   void _activateAppCheckLater() {
