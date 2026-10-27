@@ -13,15 +13,22 @@ Future<void> main() async {
   final local = LocalStorageProvider();
   await local.init();
 
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-
   final firebaseReady = kFirebaseConfigured || !isFirebaseOptionsPlaceholder;
-  if (firebaseReady && !kIsWeb) {
-    await FirebaseAppCheck.instance.activate(
-      providerAndroid: kDebugMode
-          ? const AndroidDebugProvider()
-          : const AndroidPlayIntegrityProvider(),
-    );
+  if (firebaseReady) {
+    try {
+      await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
+      );
+      if (!kIsWeb) {
+        await FirebaseAppCheck.instance.activate(
+          providerAndroid: kDebugMode
+              ? const AndroidDebugProvider()
+              : const AndroidPlayIntegrityProvider(),
+        );
+      }
+    } catch (error) {
+      debugPrint('No se pudo iniciar Firebase: $error');
+    }
   }
 
   runApp(const GlucoTrackApp());
