@@ -33,10 +33,10 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyDDYaO3nqYCd7WVwmZpcTtO7vrYFhmDJmQ',
-    appId: '1:475542608918:android:72442d56a663af1beb6937',
-    messagingSenderId: '475542608918',
-    projectId: 'glucocheck-46e15',
-    storageBucket: 'glucocheck-46e15.firebasestorage.app',
+    apiKey: 'REPLACE_WITH_FLUTTERFIRE',
+    appId: 'REPLACE_WITH_FLUTTERFIRE',
+    messagingSenderId: 'REPLACE_WITH_FLUTTERFIRE',
+    projectId: 'REPLACE_WITH_FLUTTERFIRE',
+    storageBucket: 'REPLACE_WITH_FLUTTERFIRE.appspot.com',
   );
 }

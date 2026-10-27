@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import '../../app/routes/app_routes.dart';
 import '../assistant/assistant_view.dart';
+import '../settings/settings_controller.dart';
 import '../dashboard/dashboard_view.dart';
 import '../history/history_view.dart';
 import '../profile/profile_view.dart';
@@ -36,7 +37,16 @@ class HomeView extends GetView<HomeController> {
 
     return Obx(() {
       return Scaffold(
-        appBar: AppBar(title: const Text('GlucoTrack')),
+        appBar: AppBar(
+          title: const Text('GlucoTrack'),
+          actions: [
+            IconButton(
+              tooltip: 'Cerrar sesión',
+              icon: const Icon(Icons.logout),
+              onPressed: () => _confirmLogout(context),
+            ),
+          ],
+        ),
         body: IndexedStack(index: controller.index.value, children: pages),
         floatingActionButton: controller.index.value == 0
             ? FloatingActionButton(
@@ -56,5 +66,31 @@ class HomeView extends GetView<HomeController> {
         ),
       );
     });
+  }
+
+  Future<void> _confirmLogout(BuildContext context) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Cerrar sesión'),
+          content: const Text(
+            'Se cerrará la sesión en este dispositivo para que otra persona pueda iniciar con su cuenta.',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: const Text('Cancelar'),
+            ),
+            FilledButton(
+              onPressed: () => Navigator.pop(context, true),
+              child: const Text('Cerrar sesión'),
+            ),
+          ],
+        );
+      },
+    );
+    if (confirmed != true) return;
+    await Get.find<SettingsController>().logout();
   }
 }
