@@ -46,9 +46,11 @@ app.*.map.json
 
 # Secretos y entorno
 .env
-backend/.env
+**/.env
+!**/.env.example
 backend/.venv
 .venv
 **/serviceAccount*.json
 **/firebase-adminsdk*.json
 **/google-services.json
+**/GoogleService-Info.plist

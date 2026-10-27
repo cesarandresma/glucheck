@@ -13,21 +13,31 @@ Future<void> main() async {
   final local = LocalStorageProvider();
   await local.init();
 
-  final firebaseReady = kFirebaseConfigured || !isFirebaseOptionsPlaceholder;
-  if (firebaseReady) {
-    try {
-      await Firebase.initializeApp(
-        options: DefaultFirebaseOptions.currentPlatform,
-      );
-      if (!kIsWeb) {
-        await FirebaseAppCheck.instance.activate(
-          providerAndroid: kDebugMode
-              ? const AndroidDebugProvider()
-              : const AndroidPlayIntegrityProvider(),
+  try {
+    if (Firebase.apps.isEmpty) {
+      if (!isFirebaseOptionsPlaceholder || kFirebaseConfigured) {
+        await Firebase.initializeApp(
+          options: DefaultFirebaseOptions.currentPlatform,
         );
+      } else if (!kIsWeb && defaultTargetPlatform == TargetPlatform.android) {
+        // Usa los valores que el plugin de Google Services genera desde
+        // android/app/google-services.json, sin copiar la clave al código.
+        await Firebase.initializeApp();
       }
-    } catch (error) {
-      debugPrint('No se pudo iniciar Firebase: $error');
+    }
+  } catch (_) {
+    debugPrint('No se pudo iniciar Firebase.');
+  }
+
+  if (Firebase.apps.isNotEmpty && !kIsWeb) {
+    try {
+      await FirebaseAppCheck.instance.activate(
+        providerAndroid: kDebugMode
+            ? const AndroidDebugProvider()
+            : const AndroidPlayIntegrityProvider(),
+      );
+    } catch (_) {
+      debugPrint('App Check no se activó.');
     }
   }
 

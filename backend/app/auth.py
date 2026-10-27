@@ -16,11 +16,11 @@ async def get_current_uid(
         )
     try:
         decoded = verify_id_token(credentials.credentials)
-    except Exception as exc:
+    except Exception:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Token inválido",
-        ) from exc
+        )
     uid = decoded.get("uid")
     if not uid:
         raise HTTPException(

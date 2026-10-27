@@ -1,7 +1,7 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
 
 import '../../app/routes/app_routes.dart';
-import '../../firebase_options.dart';
 import '../../services/auth_service.dart';
 
 enum SplashStatus { loading, ready, firebaseMissing }
@@ -22,10 +22,11 @@ class SplashController extends GetxController {
 
   Future<void> _bootstrap() async {
     await Future<void>.delayed(const Duration(milliseconds: 800));
-    if (!kFirebaseConfigured && isFirebaseOptionsPlaceholder) {
+    if (Firebase.apps.isEmpty) {
       status.value = SplashStatus.firebaseMissing;
       message.value =
-          'Firebase aún no está configurado. Siga el README para ejecutar flutterfire configure.';
+          'Firebase no está inicializado. Compruebe que android/app/google-services.json '
+          'existe en este equipo y vuelva a compilar la app.';
       return;
     }
     status.value = SplashStatus.ready;

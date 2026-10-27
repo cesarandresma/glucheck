@@ -96,7 +96,7 @@ def test_assistant_uses_token_uid_and_local_summary(monkeypatch):
 
 def test_assistant_ai_provider_unavailable(monkeypatch):
     monkeypatch.setattr("app.main.user_readings_collection", lambda uid: _Query())
-    settings.openai_api_key = "sk-test"
+    settings.openai_api_key = "placeholder-not-a-secret"
 
     async def fail(*args, **kwargs):
         return None
