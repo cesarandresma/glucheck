@@ -63,17 +63,17 @@ dependencies {
 
 // Lee google-services.json local (está en .gitignore) y genera los recursos
 // que Firebase.initializeApp() usa en Android. La clave no queda en Git.
+// La ruta va como texto: si el archivo no existe (CI), Gradle no lo exige.
 val generateFirebaseClientResources =
     tasks.register("generateFirebaseClientResources") {
-        val jsonFile = layout.projectDirectory.file("google-services.json")
+        val servicesPath = file("google-services.json").absolutePath
         val outputDir = layout.buildDirectory.dir("generated/res/firebase_client")
-        inputs.file(jsonFile).optional()
         outputs.dir(outputDir)
         doLast {
             val valuesDir = outputDir.get().asFile.resolve("values")
             valuesDir.mkdirs()
             val xmlFile = valuesDir.resolve("values.xml")
-            val source = jsonFile.asFile
+            val source = java.io.File(servicesPath)
             if (!source.exists()) {
                 xmlFile.writeText(
                     """<?xml version="1.0" encoding="utf-8"?><resources/>""",
