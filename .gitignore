@@ -44,9 +44,11 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
-# Secretos y entorno
+# Secretos y entorno. .env.example sí se versiona, sin valores reales.
 .env
 **/.env
+**/.nev
+!.env.example
 !**/.env.example
 backend/.venv
 .venv
@@ -54,3 +56,4 @@ backend/.venv
 **/firebase-adminsdk*.json
 **/google-services.json
 **/GoogleService-Info.plist
+lib/firebase_options.dart

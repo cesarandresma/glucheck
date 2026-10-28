@@ -17,6 +17,11 @@ jobs:
         with:
           channel: stable
           cache: true
+      - name: Opciones Firebase sin claves
+        run: |
+          if [ ! -f lib/firebase_options.dart ]; then
+            cp lib/firebase_options.example.dart lib/firebase_options.dart
+          fi
       - name: Dependencias
         run: flutter pub get
       - name: Formato
@@ -55,6 +60,9 @@ jobs:
           cache: true
       - name: Compilar APK
         run: |
+          if [ ! -f lib/firebase_options.dart ]; then
+            cp lib/firebase_options.example.dart lib/firebase_options.dart
+          fi
           flutter pub get
           flutter build apk --release --dart-define=FIREBASE_CONFIGURED=false
       - name: Publicar en Release
